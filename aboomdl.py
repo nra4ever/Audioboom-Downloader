@@ -1,10 +1,10 @@
 import requests, re, os
 
-print("Audioboom Downloader by nra4ever v1")
+print("Audioboom Downloader by nra4ever v1.1")
 print("Enter audioboom channel URL: ")
 curl = input()
 ddir = input("Enter the desired download directory: ")
-assert os.path.exists(ddir), "I did not find the directory at, "+str(ddir)
+assert os.path.exists(ddir), "I did not find the directory at, "+ str(ddir)
 ldata = []
 d = 0
 page = 0
@@ -43,9 +43,12 @@ print("Downloading Episodes...")
 
 for url in dlinks:
     fnstr = url[url.find('posts/'):][14:]
-    print("Downloading " + fnstr)
-    s = requests.get(url)
-    with open(ddir + fnstr, 'wb') as f:
-        f.write(s.content)
-        d = +1
+    if os.path.isfile(ddir + "\\" + fnstr):
+        print("Episode already exists, skipping")
+    else:
+        print("Downloading " + fnstr)
+        s = requests.get(url)
+        with open(ddir + fnstr, 'wb') as f:
+            f.write(s.content)
+            d = +1
 print("Finished, downloaded " + str(d) + " files.")
